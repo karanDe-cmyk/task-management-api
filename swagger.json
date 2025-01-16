@@ -1,0 +1,194 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "Task Management API",
+      "version": "1.0.0",
+      "description": "API for managing tasks"
+    },
+    "host": "localhost:3000",
+    "basePath": "/",
+    "schemes": ["http"],
+    "paths": {
+      "/tasks": {
+        "get": {
+          "summary": "Retrieve all tasks",
+          "parameters": [
+            {
+              "name": "page",
+              "in": "query",
+              "description": "Page number for pagination",
+              "required": false,
+              "type": "integer"
+            },
+            {
+              "name": "limit",
+              "in": "query",
+              "description": "Number of tasks per page",
+              "required": false,
+              "type": "integer"
+            },
+            {
+              "name": "status",
+              "in": "query",
+              "description": "Filter tasks by status",
+              "required": false,
+              "type": "string"
+            },
+            {
+              "name": "search",
+              "in": "query",
+              "description": "Search tasks by title",
+              "required": false,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of tasks",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Task"
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new task",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "description": "Task object to create",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/TaskInput"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Task created successfully",
+              "schema": {
+                "$ref": "#/definitions/Task"
+              }
+            }
+          }
+        }
+      },
+      "/tasks/{id}": {
+        "get": {
+          "summary": "Retrieve a task by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Task ID",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "The task details",
+              "schema": {
+                "$ref": "#/definitions/Task"
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a task by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Task ID to update",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "description": "Updated task object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/TaskInput"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Task updated successfully",
+              "schema": {
+                "$ref": "#/definitions/Task"
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a task by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Task ID to delete",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Task deleted successfully"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Task": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "TaskInput": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "required": true
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["Pending", "In Progress", "Completed"],
+            "default": "Pending"
+          }
+        }
+      }
+    }
+  }
+  
