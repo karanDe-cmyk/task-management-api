@@ -29,9 +29,9 @@ exports.getTasks = async (req, res) => {
     const tasks = await Task.find(filter).skip(skip).limit(limit);
     const total = await Task.countDocuments(filter);
     res.json({
-      page: page,
-      limit: limit,
-      total,
+      // page: page,
+      // limit: limit,
+      // total,
       tasks
     });
   } catch (error) {
